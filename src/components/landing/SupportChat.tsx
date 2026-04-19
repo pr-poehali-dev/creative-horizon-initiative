@@ -135,6 +135,12 @@ export default function SupportChat() {
 
     if (reaction) {
       addAlexey([reaction[1]])
+      if (ALEXEY_SCRIPT[nextStep]) {
+        setTimeout(() => {
+          setScriptStep(nextStep)
+          addAlexey(ALEXEY_SCRIPT[nextStep], 1200)
+        }, reaction[1].length * 40 + 2000)
+      }
     } else if (ALEXEY_SCRIPT[nextStep]) {
       setScriptStep(nextStep)
       addAlexey(ALEXEY_SCRIPT[nextStep])
