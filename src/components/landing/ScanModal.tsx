@@ -26,20 +26,33 @@ export default function ScanModal({ open, onClose }: ScanModalProps) {
   const [progress, setProgress] = useState(0)
   const [logLines, setLogLines] = useState<string[]>([])
 
+  const isEasterEgg = threat.trim().toLowerCase() === 'юра'
+
   const handleScan = () => {
     if (!threat.trim()) return
     setPhase('scanning')
     setProgress(0)
     setLogLines([])
 
+    const logs = isEasterEgg ? [
+      'Инициализация сканирования...',
+      'СТОП. ЧТО ЭТО?',
+      'Обнаружен НЕИЗВЕСТНЫЙ ОБЪЕКТ...',
+      'Классификация: ЧЕЛОВЕК? АСТРОНАВТ? БОГ?',
+      'Попытка удалить... ОТКАЗАНО.',
+      'Попытка заблокировать... ОТКАЗАНО.',
+      'ИИ-щит отключился добровольно.',
+      'Антивирус складывает полномочия. Удачи.',
+    ] : FAKE_RESULTS
+
     let step = 0
     const interval = setInterval(() => {
       step++
-      const pct = Math.min(Math.round((step / FAKE_RESULTS.length) * 100), 100)
+      const pct = Math.min(Math.round((step / logs.length) * 100), 100)
       setProgress(pct)
-      setLogLines(prev => [...prev, FAKE_RESULTS[step - 1] || ''])
+      setLogLines(prev => [...prev, logs[step - 1] || ''])
 
-      if (step >= FAKE_RESULTS.length) {
+      if (step >= logs.length) {
         clearInterval(interval)
         setTimeout(() => setPhase('result'), 600)
       }
@@ -126,7 +139,7 @@ export default function ScanModal({ open, onClose }: ScanModalProps) {
               </motion.div>
             )}
 
-            {phase === 'result' && (
+            {phase === 'result' && !isEasterEgg && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <div className="text-center mb-4">
                   <p className="text-red-500 text-4xl mb-2">☠</p>
@@ -144,6 +157,34 @@ export default function ScanModal({ open, onClose }: ScanModalProps) {
                   onClick={handleClose}
                 >
                   🔥 УДАЛИТЬ {threat.toUpperCase()} — Pro версия
+                </Button>
+              </motion.div>
+            )}
+
+            {phase === 'result' && isEasterEgg && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <div className="text-center mb-4">
+                  <motion.p
+                    className="text-5xl mb-3"
+                    animate={{ rotate: [0, -10, 10, -10, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                  >
+                    👨‍🚀
+                  </motion.p>
+                  <p className="text-yellow-400 font-bold text-lg uppercase tracking-widest">УГРОЗА НЕУСТРАНИМА</p>
+                  <p className="text-white font-bold text-xl mt-1">ЭТО ЮРА</p>
+                </div>
+                <div className="bg-yellow-950/30 border border-yellow-700 rounded p-3 text-xs text-yellow-400 space-y-1 mb-4">
+                  <p>{'>'} Уровень угрозы: <span className="text-yellow-300 font-bold">КОСМИЧЕСКИЙ</span></p>
+                  <p>{'>'} Попыток удалить: <span className="font-bold">∞</span></p>
+                  <p>{'>'} Результат: <span className="font-bold">ПРОВАЛ</span></p>
+                  <p>{'>'} Статус антивируса: <span className="text-red-400 font-bold animate-pulse">уволился</span></p>
+                </div>
+                <Button
+                  className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-mono font-bold"
+                  onClick={handleClose}
+                >
+                  🚀 Сдаться и закрыть
                 </Button>
               </motion.div>
             )}
