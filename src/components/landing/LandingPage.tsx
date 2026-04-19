@@ -10,6 +10,17 @@ export default function LandingPage() {
   const [activeSection, setActiveSection] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [proOpen, setProOpen] = useState(false)
+  const [timeLeft, setTimeLeft] = useState(9 * 60 + 59)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(t => t > 0 ? t - 1 : 9 * 60 + 59)
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0')
+  const secs = String(timeLeft % 60).padStart(2, '0')
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ container: containerRef })
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
@@ -76,12 +87,17 @@ export default function LandingPage() {
         ))}
       </div>
       <motion.button
-        className="fixed top-4 right-4 z-40 bg-yellow-500 hover:bg-yellow-400 text-black font-mono font-bold text-base px-6 py-3 rounded-lg shadow-[0_0_30px_#eab308aa] animate-pulse"
+        className="fixed top-4 right-4 z-40 bg-yellow-500 hover:bg-yellow-400 text-black font-mono font-bold rounded-lg shadow-[0_0_30px_#eab308aa] flex flex-col items-center px-5 py-2"
         onClick={() => setProOpen(true)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        animate={timeLeft <= 30 ? { scale: [1, 1.05, 1] } : {}}
+        transition={{ repeat: Infinity, duration: 0.5 }}
       >
-        👑 PRO версия
+        <span className="text-base">👑 PRO версия</span>
+        <span className={`text-xs font-mono mt-0.5 ${timeLeft <= 60 ? 'text-red-700' : 'text-black/70'}`}>
+          🔥 Осталось {mins}:{secs}
+        </span>
       </motion.button>
       <ScanModal open={modalOpen} onClose={() => setModalOpen(false)} />
       <ProModal open={proOpen} onClose={() => setProOpen(false)} />
