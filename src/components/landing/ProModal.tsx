@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Icon from '@/components/ui/icon'
+import PanicMode from './PanicMode'
 
 interface ProModalProps {
   open: boolean
@@ -55,6 +56,7 @@ export default function ProModal({ open, onClose }: ProModalProps) {
   const [progress, setProgress] = useState(0)
   const [logLines, setLogLines] = useState<string[]>([])
   const [viruses, setViruses] = useState(1337)
+  const [panicActive, setPanicActive] = useState(false)
 
   const runSteps = (steps: string[], onDone: () => void, speed = 400) => {
     setProgress(0)
@@ -225,9 +227,20 @@ export default function ProModal({ open, onClose }: ProModalProps) {
                     </Button>
                     <p className="text-red-900 text-xs text-center mt-1">Необратимое действие. Ядерный режим.</p>
                   </motion.div>
+
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button
+                      className="w-full bg-orange-600 hover:bg-orange-500 text-white font-mono font-bold text-base py-5 border border-orange-400"
+                      onClick={() => { setPanicActive(true) }}
+                    >
+                      🚨 РЕЖИМ ПАНИКИ
+                    </Button>
+                    <p className="text-orange-900 text-xs text-center mt-1">Симуляция взлома. Не для слабонервных.</p>
+                  </motion.div>
                 </div>
               </motion.div>
             )}
+            <PanicMode active={panicActive} onClose={() => setPanicActive(false)} />
 
             {/* ВСЁУДАЛЕНО */}
             {phase === 'done' && (
