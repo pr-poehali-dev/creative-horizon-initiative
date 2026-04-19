@@ -6,6 +6,7 @@ import { sections } from './sections'
 import ScanModal from './ScanModal'
 import ProModal from './ProModal'
 import BSOD from './BSOD'
+import ThreatToast from './ThreatToast'
 
 export default function LandingPage() {
   const [activeSection, setActiveSection] = useState(0)
@@ -108,6 +109,7 @@ export default function LandingPage() {
       <ScanModal open={modalOpen} onClose={() => setModalOpen(false)} />
       <ProModal open={proOpen} onClose={() => setProOpen(false)} />
       <BSOD active={bsodActive} onClose={() => setBsodActive(false)} />
+      <ThreatToast />
     </Layout>
   )
 }
