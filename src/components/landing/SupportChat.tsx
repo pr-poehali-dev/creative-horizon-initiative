@@ -110,7 +110,7 @@ export default function SupportChat() {
     <>
       {/* кнопка чата */}
       <motion.button
-        className="fixed bottom-4 right-4 z-50 bg-[#0078D7] hover:bg-blue-500 text-white font-mono font-bold px-4 py-3 rounded-full shadow-[0_0_20px_#0078D755] flex items-center gap-2"
+        className="fixed bottom-4 left-4 z-50 bg-[#0078D7] hover:bg-blue-500 text-white font-mono font-bold px-4 py-3 rounded-full shadow-[0_0_20px_#0078D755] flex items-center gap-2"
         onClick={() => { setOpen(true); setUnread(0) }}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
@@ -134,7 +134,7 @@ export default function SupportChat() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed bottom-20 right-4 z-50 w-80 bg-black border border-[#0078D7] rounded-xl shadow-[0_0_40px_#0078D733] flex flex-col font-mono overflow-hidden"
+            className="fixed bottom-20 left-4 z-50 w-80 bg-black border border-[#0078D7] rounded-xl shadow-[0_0_40px_#0078D733] flex flex-col font-mono overflow-hidden"
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.9 }}
