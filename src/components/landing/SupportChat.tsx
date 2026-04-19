@@ -97,8 +97,9 @@ export default function SupportChat() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
-  const [scriptStep, setScriptStep] = useState(0)
   const [unread, setUnread] = useState(0)
+  const scriptStepRef = useRef(0)
+  const openRef = useRef(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   const addAlexey = (texts: string[], delay = 1000) => {
@@ -106,13 +107,14 @@ export default function SupportChat() {
     texts.forEach((text, i) => {
       setTimeout(() => {
         setMessages(prev => [...prev, { from: 'alexey', text }])
-        if (!open) setUnread(u => u + 1)
+        if (!openRef.current) setUnread(u => u + 1)
         if (i === texts.length - 1) setTyping(false)
       }, delay + i * 1200)
     })
   }
 
   useEffect(() => {
+    openRef.current = open
     if (open && messages.length === 0) {
       addAlexey(ALEXEY_SCRIPT[0], 800)
     }
@@ -131,18 +133,12 @@ export default function SupportChat() {
 
     const lower = text.toLowerCase()
     const reaction = ALEXEY_REACTIONS.find(([key]) => lower.includes(key))
-    const nextStep = scriptStep + 1
+    const nextStep = scriptStepRef.current + 1
 
     if (reaction) {
       addAlexey([reaction[1]])
-      if (ALEXEY_SCRIPT[nextStep]) {
-        setTimeout(() => {
-          setScriptStep(nextStep)
-          addAlexey(ALEXEY_SCRIPT[nextStep], 1200)
-        }, reaction[1].length * 40 + 2000)
-      }
     } else if (ALEXEY_SCRIPT[nextStep]) {
-      setScriptStep(nextStep)
+      scriptStepRef.current = nextStep
       addAlexey(ALEXEY_SCRIPT[nextStep])
     } else {
       const random = DEFAULT_REACTIONS[Math.floor(Math.random() * DEFAULT_REACTIONS.length)]
