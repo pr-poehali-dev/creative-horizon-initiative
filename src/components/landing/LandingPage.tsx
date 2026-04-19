@@ -76,7 +76,7 @@ export default function LandingPage() {
         ))}
       </div>
       <motion.button
-        className="fixed top-4 right-4 z-40 bg-yellow-500 hover:bg-yellow-400 text-black font-mono font-bold text-xs px-3 py-2 rounded shadow-[0_0_20px_#eab30855] animate-pulse"
+        className="fixed top-4 right-4 z-40 bg-yellow-500 hover:bg-yellow-400 text-black font-mono font-bold text-base px-6 py-3 rounded-lg shadow-[0_0_30px_#eab308aa] animate-pulse"
         onClick={() => setProOpen(true)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
