@@ -5,11 +5,14 @@ import Layout from './Layout'
 import { sections } from './sections'
 import ScanModal from './ScanModal'
 import ProModal from './ProModal'
+import BSOD from './BSOD'
 
 export default function LandingPage() {
   const [activeSection, setActiveSection] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [proOpen, setProOpen] = useState(false)
+  const [bsodActive, setBsodActive] = useState(false)
+  const [bsodShown, setBsodShown] = useState(false)
   const [timeLeft, setTimeLeft] = useState(9 * 60 + 59)
 
   useEffect(() => {
@@ -32,6 +35,9 @@ export default function LandingPage() {
         const windowHeight = window.innerHeight
         const newActiveSection = Math.floor(scrollPosition / windowHeight)
         setActiveSection(newActiveSection)
+        if (newActiveSection === sections.length - 1 && !bsodShown) {
+          setTimeout(() => { setBsodActive(true); setBsodShown(true) }, 600)
+        }
       }
     }
 
@@ -101,6 +107,7 @@ export default function LandingPage() {
       </motion.button>
       <ScanModal open={modalOpen} onClose={() => setModalOpen(false)} />
       <ProModal open={proOpen} onClose={() => setProOpen(false)} />
+      <BSOD active={bsodActive} onClose={() => setBsodActive(false)} />
     </Layout>
   )
 }
