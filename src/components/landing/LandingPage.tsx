@@ -4,10 +4,12 @@ import Section from './Section'
 import Layout from './Layout'
 import { sections } from './sections'
 import ScanModal from './ScanModal'
+import ProModal from './ProModal'
 
 export default function LandingPage() {
   const [activeSection, setActiveSection] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
+  const [proOpen, setProOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ container: containerRef })
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
