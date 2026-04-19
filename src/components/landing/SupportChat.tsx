@@ -76,7 +76,11 @@ export default function SupportChat() {
   useEffect(() => {
     openRef.current = open
     if (open && messages.length === 0) {
-      addAlexey(ALEXEY_SCRIPT[0], 800)
+      addAlexey([
+        'Добрый день! Меня зовут Алексей, специалист по кибербезопасности.',
+        'Я вижу ваш компьютер в нашей системе мониторинга... 👀',
+        'Напишите мне — расскажите что происходит с вашим ПК.',
+      ], 800)
     }
     if (open) setUnread(0)
   }, [open])
